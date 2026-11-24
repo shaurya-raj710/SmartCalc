@@ -23,7 +23,7 @@ This project is tailored specifically for learning **Vanilla JavaScript** and **
 smartcalc/
 │
 ├── index.html       # Complete semantic HTML structure for display, keypad, and history
-├── style.css        # Minimal modern dark theme with responsive styling
+├── style.css        # Vintage industrial dark theme (grey gradient background, sharp typography & safety orange)
 ├── script.js        # Empty JavaScript file (ready for your code!)
 └── README.md        # Project guide, DOM references, and documentation
 ```
