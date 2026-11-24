@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCalc — Modern Web Calculator</title>
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Deferred JavaScript file (empty, ready for custom implementation) -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header Section -->
+    <header class="app-header">
+      <h1 class="app-title">SmartCalc</h1>
+      <p class="app-subtitle">A clean, modern calculator for everyday calculations</p>
+    </header>
+
+    <!-- Main Content Area: Calculator & History -->
+    <main class="calculator-container">
+      
+      <!-- ============================================ -->
+      <!-- CALCULATOR COMPONENT                         -->
+      <!-- ============================================ -->
+      <section class="calculator-card" aria-label="Calculator">
+
+        <!-- Calculator Display Area -->
+        <div class="calculator-display" aria-live="polite">
+          <!-- Previous calculation or current expression -->
+          <div 
+            id="previous-operand" 
+            class="display-previous" 
+            aria-label="Previous expression"
+          ></div>
+
+          <!-- Current input or calculation result -->
+          <div 
+            id="current-operand" 
+            class="display-current" 
+            aria-label="Current input"
+          >0</div>
+        </div>
+
+        <!-- Calculator Keypad (Grid of Buttons) -->
+        <div class="calculator-keypad" role="group" aria-label="Calculator Keypad">
+
+          <!-- Row 1: Actions & Division -->
+          <button 
+            type="button" 
+            id="btn-clear" 
+            class="btn btn-action" 
+            data-action="clear" 
+            aria-label="Clear all"
+          >AC</button>
+
+          <button 
+            type="button" 
+            id="btn-delete" 
+            class="btn btn-action" 
+            data-action="delete" 
+            aria-label="Delete last character"
+          >DEL</button>
+
+          <button 
+            type="button" 
+            id="btn-percent" 
+            class="btn btn-action" 
+            data-action="percent" 
+            aria-label="Percentage"
+          >%</button>
+
+          <button 
+            type="button" 
+            id="btn-divide" 
+            class="btn btn-operator" 
+            data-operator="÷" 
+            aria-label="Divide"
+          >÷</button>
+
+          <!-- Row 2: Numbers 7, 8, 9 & Multiplication -->
+          <button 
+            type="button" 
+            id="btn-7" 
+            class="btn btn-number" 
+            data-number="7"
+          >7</button>
+
+          <button 
+            type="button" 
+            id="btn-8" 
+            class="btn btn-number" 
+            data-number="8"
+          >8</button>
+
+          <button 
+            type="button" 
+            id="btn-9" 
+            class="btn btn-number" 
+            data-number="9"
+          >9</button>
+
+          <button 
+            type="button" 
+            id="btn-multiply" 
+            class="btn btn-operator" 
+            data-operator="×" 
+            aria-label="Multiply"
+          >×</button>
+
+          <!-- Row 3: Numbers 4, 5, 6 & Subtraction -->
+          <button 
+            type="button" 
+            id="btn-4" 
+            class="btn btn-number" 
+            data-number="4"
+          >4</button>
+
+          <button 
+            type="button" 
+            id="btn-5" 
+            class="btn btn-number" 
+            data-number="5"
+          >5</button>
+
+          <button 
+            type="button" 
+            id="btn-6" 
+            class="btn btn-number" 
+            data-number="6"
+          >6</button>
+
+          <button 
+            type="button" 
+            id="btn-subtract" 
+            class="btn btn-operator" 
+            data-operator="-" 
+            aria-label="Subtract"
+          >−</button>
+
+          <!-- Row 4: Numbers 1, 2, 3 & Addition -->
+          <button 
+            type="button" 
+            id="btn-1" 
+            class="btn btn-number" 
+            data-number="1"
+          >1</button>
+
+          <button 
+            type="button" 
+            id="btn-2" 
+            class="btn btn-number" 
+            data-number="2"
+          >2</button>
+
+          <button 
+            type="button" 
+            id="btn-3" 
+            class="btn btn-number" 
+            data-number="3"
+          >3</button>
+
+          <button 
+            type="button" 
+            id="btn-add" 
+            class="btn btn-operator" 
+            data-operator="+" 
+            aria-label="Add"
+          >+</button>
+
+          <!-- Row 5: Number 0, Decimal Point & Equals -->
+          <button 
+            type="button" 
+            id="btn-0" 
+            class="btn btn-number btn-zero" 
+            data-number="0"
+          >0</button>
+
+          <button 
+            type="button" 
+            id="btn-decimal" 
+            class="btn btn-number" 
+            data-action="decimal" 
+            aria-label="Decimal point"
+          >.</button>
+
+          <button 
+            type="button" 
+            id="btn-equals" 
+            class="btn btn-equals" 
+            data-action="equals" 
+            aria-label="Equals"
+          >=</button>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- CALCULATION HISTORY SECTION                  -->
+      <!-- ============================================ -->
+      <aside class="history-card" aria-label="Calculation History">
+        
+        <!-- History Card Header -->
+        <div class="history-header">
+          <h2 class="history-title">History</h2>
+          <button 
+            type="button" 
+            id="btn-clear-history" 
+            class="btn-clear-history" 
+            aria-label="Clear all calculation history"
+          >Clear History</button>
+        </div>
+
+        <!-- History Content Area -->
+        <div class="history-content">
+          <!-- Empty State message: shown when no history exists -->
+          <p id="history-empty" class="history-empty">No calculations yet</p>
+
+          <!-- History List: JavaScript will append calculations here -->
+          <ul id="history-list" class="history-list" aria-label="Past calculations list">
+            <!-- Example of what JavaScript can render dynamically:
+            <li class="history-item">
+              <span class="history-expression">24 × 5</span>
+              <span class="history-result">= 120</span>
+            </li>
+            -->
+          </ul>
+        </div>
+
+      </aside>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+/* ==========================================================================
+   SmartCalc — Minimal Modern Dark Theme Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties (Theme Variables)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Surface & Background Colors */
+  --bg-app: #0f172a;               /* Deep slate dark background */
+  --bg-card: #1e293b;              /* Calculator & history panel surface */
+  --bg-display: #090d16;           /* Inset dark display background */
+  --border-color: #334155;         /* Subtle separator border */
+  --border-focus: #38bdf8;         /* Focus indicator color */
+
+  /* Button Colors */
+  --btn-num-bg: #334155;           /* Number buttons background */
+  --btn-num-hover: #475569;        /* Number buttons hover */
+  --btn-action-bg: #1e293b;        /* Action buttons (AC, DEL, %) background */
+  --btn-action-hover: #334155;     /* Action buttons hover */
+  --btn-action-text: #93c5fd;      /* Soft blue accent for actions */
+  --btn-operator-bg: #2563eb;      /* Operators (+, -, ×, ÷) background */
+  --btn-operator-hover: #1d4ed8;   /* Operators hover */
+  --btn-equals-bg: #059669;        /* Equals button background (prominent emerald) */
+  --btn-equals-hover: #047857;     /* Equals hover */
+
+  /* Text Colors */
+  --text-primary: #f8fafc;         /* High-contrast bright text */
+  --text-secondary: #94a3b8;       /* Muted label / previous operand text */
+  --text-muted: #64748b;           /* Empty-state / subtitle text */
+
+  /* Sizing & Radius */
+  --radius-lg: 18px;               /* Main card corners */
+  --radius-md: 12px;               /* Display & buttons corners */
+  --radius-sm: 8px;                /* Inner element corners */
+  --transition-speed: 0.15s;       /* Smooth UI interaction speed */
+}
+
+/* --------------------------------------------------------------------------
+   2. Base & Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Layout Containers
+   -------------------------------------------------------------------------- */
+.app-wrapper {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+}
+
+.app-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.app-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Main row for Calculator + History */
+.calculator-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Calculator Card
+   -------------------------------------------------------------------------- */
+.calculator-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4),
+              0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Calculator Display
+   -------------------------------------------------------------------------- */
+.calculator-display {
+  background-color: var(--bg-display);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* Previous Expression / Calculation */
+.display-previous {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  min-height: 24px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+}
+
+.display-previous::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+/* Current Input / Result */
+.display-current {
+  font-size: 2.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.display-current::-webkit-scrollbar {
+  height: 4px;
+}
+
+.display-current::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   6. Keypad & Buttons
+   -------------------------------------------------------------------------- */
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Common Button Base */
+.btn {
+  appearance: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 500;
+  min-height: 56px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color var(--transition-speed) ease,
+              transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+/* Focus styles for keyboard accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Subtle active click feel */
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* Number Buttons (0-9, .) */
+.btn-number {
+  background-color: var(--btn-num-bg);
+  color: var(--text-primary);
+}
+
+.btn-number:hover {
+  background-color: var(--btn-num-hover);
+}
+
+/* Zero button spans 2 columns */
+.btn-zero {
+  grid-column: span 2;
+}
+
+/* Action Buttons (AC, DEL, %) */
+.btn-action {
+  background-color: var(--btn-action-bg);
+  border: 1px solid var(--border-color);
+  color: var(--btn-action-text);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.btn-action:hover {
+  background-color: var(--btn-action-hover);
+}
+
+/* Operator Buttons (+, -, ×, ÷) */
+.btn-operator {
+  background-color: var(--btn-operator-bg);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.btn-operator:hover {
+  background-color: var(--btn-operator-hover);
+}
+
+/* Equals Button (=) - Prominently Styled */
+.btn-equals {
+  background-color: var(--btn-equals-bg);
+  color: #ffffff;
+  font-size: 1.45rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.btn-equals:hover {
+  background-color: var(--btn-equals-hover);
+}
+
+/* --------------------------------------------------------------------------
+   7. History Section
+   -------------------------------------------------------------------------- */
+.history-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Header inside History */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.history-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Clear History Button */
+.btn-clear-history {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-clear-history:hover {
+  background-color: var(--btn-num-bg);
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.btn-clear-history:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* History Content Container */
+.history-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  max-height: 360px;
+}
+
+/* Empty State Message */
+.history-empty {
+  margin: auto;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* History List */
+.history-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+/* History Item (ready for JavaScript dynamic creation) */
+.history-item {
+  background-color: var(--bg-display);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  cursor: pointer;
+  transition: border-color var(--transition-speed) ease;
+}
+
+.history-item:hover {
+  border-color: var(--text-secondary);
+}
+
+.history-expression {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.history-result {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive Design (Mobile & Tablet)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .calculator-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .calculator-card,
+  .history-card {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .calculator-card {
+    max-width: 380px;
+  }
+
+  .history-card {
+    max-width: 380px;
+  }
+
+  .btn {
+    min-height: 52px;
+    font-size: 1.2rem;
+  }
+
+  .display-current {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  body {
+    padding: 12px 8px;
+  }
+
+  .calculator-card,
+  .history-card {
+    padding: 16px;
+  }
+
+  .calculator-keypad {
+    gap: 8px;
+  }
+
+  .btn {
+    min-height: 48px;
+    font-size: 1.1rem;
+  }
+}
