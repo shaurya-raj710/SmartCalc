@@ -6,6 +6,6 @@ const numbers = document.querySelectorAll(".btn-number")
 
 numbers.forEach(function(button){
     button.addEventListener("click",function(){
-        display.textContent = button.dataset.number
+        display.textContent = display.textContent+ button.dataset.number
     })
 })
