@@ -24,3 +24,28 @@ decimal.addEventListener("click", function(){
         display.textContent =  display.textContent + "."
     }
 })
+
+const deleteBtn = document.querySelector('[data-action = "delete"]')
+
+deleteBtn.addEventListener("click", function(){
+
+    if (display.textContent.length>1){
+
+        display.textContent = display.textContent.slice(0,-1)
+
+
+    }
+    else{
+        display.textContent = "0"
+    }
+})
+
+
+const previousDisplay = document.getElementById("previous-operand");
+
+const clear = document.querySelector('[data-action = "clear"]')
+
+clear.addEventListener("click", function(){
+    display.textContent = "0"
+    previousDisplay.textContent=""
+})
