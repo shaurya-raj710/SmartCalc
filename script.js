@@ -16,3 +16,11 @@ numbers.forEach(function(button){
         
     })
 })
+
+const decimal = document.querySelector('[data-action="decimal"]')
+
+decimal.addEventListener("click", function(){
+    if(!display.textContent.includes(".")){
+        display.textContent =  display.textContent + "."
+    }
+})
