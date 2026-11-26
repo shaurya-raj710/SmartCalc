@@ -1,536 +1,85 @@
-/* ==========================================================================
-   SmartCalc — Vintage Sharp Industrial Theme
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   1. Theme Variables (No Blue, Sharp Industrial Greys & Safety Orange)
-   -------------------------------------------------------------------------- */
-:root {
-  /* Fonts: Sharp Vintage Monospace for digits, Sharp Grotesk for UI */
-  --font-display: "Space Mono", "Courier New", Courier, monospace;
-  --font-ui: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  /* Color Palette: Industrial Gunmetal & Warm Safety Orange */
-  --color-orange: #ff6600;
-  --color-orange-hover: #ff771a;
-  --color-orange-shadow: #8f3200;
-  --color-orange-glow: rgba(255, 102, 0, 0.28);
-
-  --color-operator: #ea580c;
-  --color-operator-hover: #f97316;
-  --color-operator-shadow: #9a3412;
-
-  /* Surfaces & Borders */
-  --surface-card: #1f2227;
-  --surface-display: #111215;
-  --surface-btn-num: #282b32;
-  --surface-btn-num-hover: #333740;
-  --surface-btn-action: #1c1e23;
-  --surface-btn-action-hover: #262930;
-
-  --border-light: #383d47;
-  --border-subtle: #2b2f38;
-  --border-focus: #ff6600;
-
-  /* Text Colors */
-  --text-main: #f3f4f6;
-  --text-muted: #8b93a0;
-  --text-dim: #5c6370;
-
-  /* Sharp Industrial Corners (deliberate & mechanical, not bubbly) */
-  --radius-card: 10px;
-  --radius-btn: 6px;
-  --radius-sm: 4px;
-}
-
-/* --------------------------------------------------------------------------
-   2. Base & Gradient Grey Background
-   -------------------------------------------------------------------------- */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
 }
 
 body {
-  min-height: 100vh;
-  /* Multi-layered studio grey gradient */
-  background-color: #17181c;
-  background-image: 
-    radial-gradient(ellipse at 50% 12%, #383e4a 0%, #20232a 50%, #131417 100%);
-  background-attachment: fixed;
-  color: var(--text-main);
-  font-family: var(--font-ui);
-  line-height: 1.5;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #1e1e2e;
 }
 
-/* --------------------------------------------------------------------------
-   3. Layout Structure
-   -------------------------------------------------------------------------- */
-.app-wrapper {
-  width: 100%;
-  max-width: 820px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.calculator {
+  width: 320px;
+  background-color: #2a2a3c;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Header */
-.app-header {
-  text-align: center;
-}
-
-.app-title {
-  font-family: var(--font-ui);
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.app-title::after {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-orange);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--color-orange);
-}
-
-.app-subtitle {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-/* Calculator + History Main Layout */
-.calculator-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: stretch;
-  gap: 20px;
-}
-
-/* --------------------------------------------------------------------------
-   4. Industrial Calculator Chassis
-   -------------------------------------------------------------------------- */
-.calculator-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-light);
-  border-top: 1px solid #484f5c;
-  border-radius: var(--radius-card);
-  padding: 22px;
-  width: 100%;
-  max-width: 360px;
-  box-shadow: 
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 24px 48px -12px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* --------------------------------------------------------------------------
-   5. Vintage Monospace Display Screen
-   -------------------------------------------------------------------------- */
-.calculator-display {
-  background-color: var(--surface-display);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-btn);
-  padding: 14px 18px;
-  min-height: 104px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.display {
+  background-color: #181825;
+  color: white;
   text-align: right;
-  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.7);
-  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  min-height: 90px;
+  word-wrap: break-word;
 }
 
-/* Subtle vintage matrix display indicator */
-.calculator-display::before {
-  content: "SMARTCALC // DIGITAL";
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  font-family: var(--font-display);
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  opacity: 0.6;
-}
-
-/* Previous Expression */
-.display-previous {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  color: var(--text-muted);
+#previous {
+  font-size: 16px;
+  color: #a6adc8;
   min-height: 22px;
-  overflow-x: auto;
-  white-space: nowrap;
-  margin-top: 10px;
-  scrollbar-width: none;
 }
 
-.display-previous::-webkit-scrollbar {
-  display: none;
+#current {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
-/* Current Operand / Active Digits */
-.display-current {
-  font-family: var(--font-display);
-  font-size: 2.35rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: #ffffff;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-light) transparent;
-}
-
-.display-current::-webkit-scrollbar {
-  height: 3px;
-}
-
-.display-current::-webkit-scrollbar-thumb {
-  background-color: var(--border-light);
-  border-radius: 2px;
-}
-
-/* --------------------------------------------------------------------------
-   6. Tactile Keypad & Buttons
-   -------------------------------------------------------------------------- */
-.calculator-keypad {
+.keypad {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
-/* Base Tactile Key Button */
 .btn {
-  appearance: none;
+  padding: 18px;
+  font-size: 20px;
   border: none;
-  outline: none;
-  min-height: 54px;
-  border-radius: var(--radius-btn);
+  border-radius: 10px;
   cursor: pointer;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  transition: 
-    background-color 0.12s ease,
-    border-color 0.12s ease,
-    transform 0.08s ease,
-    box-shadow 0.08s ease;
+  background-color: #3b3b52;
+  color: white;
 }
 
-/* Accessibility Focus State */
-.btn:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+.btn:hover {
+  opacity: 0.85;
 }
 
-/* Physical Mechanical Press Action */
-.btn:active {
-  transform: translateY(2px);
+.action {
+  background-color: #585b70;
 }
 
-/* --- Number Buttons (Vintage Monospace, Tactile Grey) --- */
-.btn-number {
-  background-color: var(--surface-btn-num);
-  border: 1px solid var(--border-light);
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 700;
-  box-shadow: 0 3px 0 #15171a, 0 4px 6px rgba(0, 0, 0, 0.4);
+.operator {
+  background-color: #f38ba8;
+  color: #11111b;
+  font-weight: bold;
 }
 
-.btn-number:hover {
-  background-color: var(--surface-btn-num-hover);
-  border-color: #4b5260;
-  color: #ffffff;
+.equals {
+  background-color: #a6e3a1;
+  color: #11111b;
+  font-weight: bold;
 }
 
-.btn-number:active {
-  box-shadow: 0 1px 0 #15171a, 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Zero key spans 2 columns */
-.btn-zero {
+.zero {
   grid-column: span 2;
-}
-
-/* --- Action Buttons (AC, DEL, %) --- */
-.btn-action {
-  background-color: var(--surface-btn-action);
-  border: 1px solid var(--border-subtle);
-  color: #d1d5db;
-  font-family: var(--font-ui);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 3px 0 #121316, 0 4px 6px rgba(0, 0, 0, 0.35);
-}
-
-.btn-action:hover {
-  background-color: var(--surface-btn-action-hover);
-  border-color: var(--border-light);
-  color: #ffffff;
-}
-
-.btn-action:active {
-  box-shadow: 0 1px 0 #121316;
-}
-
-/* Clear all (AC) alert accent */
-#btn-clear {
-  color: #fca5a5;
-}
-
-#btn-clear:hover {
-  color: #ef4444;
-}
-
-/* --- Operator Buttons (÷, ×, −, +) in Warm Orange --- */
-.btn-operator {
-  background-color: var(--color-operator);
-  border: 1px solid #fb923c;
-  color: #ffffff;
-  font-family: var(--font-display);
-  font-size: 1.45rem;
-  font-weight: 700;
-  box-shadow: 
-    0 3px 0 var(--color-operator-shadow), 
-    0 5px 12px rgba(234, 88, 12, 0.28);
-}
-
-.btn-operator:hover {
-  background-color: var(--color-operator-hover);
-  border-color: #fed7aa;
-}
-
-.btn-operator:active {
-  box-shadow: 0 1px 0 var(--color-operator-shadow);
-}
-
-/* --- Equals Button (=) in Punchy Vintage Safety Orange --- */
-.btn-equals {
-  background-color: var(--color-orange);
-  border: 1px solid #ff8533;
-  color: #ffffff;
-  font-family: var(--font-display);
-  font-size: 1.55rem;
-  font-weight: 700;
-  box-shadow: 
-    0 3px 0 var(--color-orange-shadow), 
-    0 6px 16px var(--color-orange-glow);
-}
-
-.btn-equals:hover {
-  background-color: var(--color-orange-hover);
-  border-color: #ffaa66;
-}
-
-.btn-equals:active {
-  box-shadow: 0 1px 0 var(--color-orange-shadow);
-}
-
-/* --------------------------------------------------------------------------
-   7. History Panel (Sharp Industrial Match)
-   -------------------------------------------------------------------------- */
-.history-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-light);
-  border-top: 1px solid #484f5c;
-  border-radius: var(--radius-card);
-  padding: 22px;
-  width: 100%;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 24px 48px -12px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(0, 0, 0, 0.6);
-}
-
-/* History Header */
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.history-title {
-  font-family: var(--font-ui);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
-/* Clear History Button */
-.btn-clear-history {
-  appearance: none;
-  background: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.btn-clear-history:hover {
-  background-color: var(--surface-btn-num);
-  color: var(--color-orange);
-  border-color: var(--color-orange);
-}
-
-.btn-clear-history:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
-}
-
-/* History Content */
-.history-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 200px;
-  max-height: 350px;
-}
-
-/* Empty State Message */
-.history-empty {
-  margin: auto;
-  font-family: var(--font-display);
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
-
-/* History Records List */
-.history-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.history-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.history-list::-webkit-scrollbar-thumb {
-  background-color: var(--border-light);
-  border-radius: 2px;
-}
-
-/* Single History Item (Ready for JavaScript insertion) */
-.history-item {
-  background-color: var(--surface-display);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-}
-
-.history-item:hover {
-  border-color: var(--color-orange);
-}
-
-.history-expression {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.history-result {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-orange);
-}
-
-/* --------------------------------------------------------------------------
-   8. Responsive Layout (Tablets & Mobile)
-   -------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .calculator-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .calculator-card,
-  .history-card {
-    max-width: 360px;
-    width: 100%;
-  }
-
-  .btn {
-    min-height: 50px;
-    font-size: 1.25rem;
-  }
-
-  .display-current {
-    font-size: 2.1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  body {
-    padding: 16px 8px;
-  }
-
-  .calculator-card,
-  .history-card {
-    padding: 16px;
-  }
-
-  .calculator-keypad {
-    gap: 8px;
-  }
-
-  .btn {
-    min-height: 46px;
-  }
 }
