@@ -102,7 +102,7 @@ When appending history records in JavaScript, you can construct an `<li>` elemen
 
 ---
 
-## 🚀 How to Open and Preview
+## How to Open and Preview
 
 1. **Directly in Browser:**
    - Navigate to the project folder (`d:\GITHUB\SmartCalc\`).
